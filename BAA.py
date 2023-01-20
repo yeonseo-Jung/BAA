@@ -28,6 +28,16 @@ def load_asset(asset_name):
 
     return df
 
+def cal_13621w(assets: dict):
+    # calculate 13621W momentum score
+    for _, mon in assets.items():
+        mon['momentum_score'] = mon['momentum_1'] * 12 + mon['momentum_3'] * 4 + mon['momentum_6'] * 2 + mon['momentum_12']
+        
+def cal_sma12(assets: dict):
+    # calculate sma12(=sma13) momentum score
+    for _, mon in assets.items():
+        mon['sma_12'] = mon["Close"] / mon["Close"].rolling(window=13).mean() - 1
+
 def run_baa_g12(params):
     
     # get paarams data
@@ -216,16 +226,8 @@ def run_baa_g12(params):
         "dep_6": dep6_asset_name,
         "dep_7": dep7_asset_name,
     }
-
-    def cal_13621w(assets: dict):
-        # calculate 13621W mommentum score
-        for _, mon in assets.items():
-            mon['momentum_score'] = mon['momentum_1'] * 12 + mon['momentum_3'] * 4 + mon['momentum_6'] * 2 + mon['momentum_12']
-            
-    def cal_sma12(assets: dict):
-        for _, mon in assets.items():
-            mon['sma_12'] = mon["Close"].rolling(window=12).mean()
-            
+       
+    # calculate momentum     
     cal_13621w(canaries)
     cal_sma12(attacks)
     cal_sma12(deps)
@@ -487,16 +489,8 @@ def run_baa_g4(params):
         "dep_6": dep6_asset_name,
         "dep_7": dep7_asset_name,
     }
-
-    def cal_13621w(assets: dict):
-        # calculate 13621W mommentum score
-        for _, mon in assets.items():
-            mon['momentum_score'] = mon['momentum_1'] * 12 + mon['momentum_3'] * 4 + mon['momentum_6'] * 2 + mon['momentum_12']
-            
-    def cal_sma12(assets: dict):
-        for _, mon in assets.items():
-            mon['sma_12'] = mon["Close"].rolling(window=12).mean()
-            
+    
+    # calculate momentum
     cal_13621w(canaries)
     cal_sma12(attacks)
     cal_sma12(deps)
