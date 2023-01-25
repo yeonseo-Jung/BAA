@@ -33,10 +33,14 @@ def cal_13621w(assets: dict):
     for _, mon in assets.items():
         mon['momentum_score'] = mon['momentum_1'] * 12 + mon['momentum_3'] * 4 + mon['momentum_6'] * 2 + mon['momentum_12']
         
+    return assets
+        
 def cal_sma12(assets: dict):
     # calculate sma12(=sma13) momentum score
     for _, mon in assets.items():
         mon['sma_12'] = mon["Close"] / mon["Close"].rolling(window=13).mean() - 1
+    
+    return assets
 
 def run_baa_g12(params):
     
@@ -133,7 +137,6 @@ def run_baa_g12(params):
     dep7 = load_asset(dep7_asset_name)
     dep7_monthly = load_asset_monthly(dep7_asset_name)
 
-
     can1 = load_asset(can1_asset_name)
     can1_monthly = load_asset_monthly(can1_asset_name)
     can2 = load_asset(can2_asset_name)
@@ -228,9 +231,9 @@ def run_baa_g12(params):
     }
        
     # calculate momentum     
-    cal_13621w(canaries)
-    cal_sma12(attacks)
-    cal_sma12(deps)
+    canaries = cal_13621w(canaries)
+    attacks = cal_sma12(attacks)
+    deps = cal_sma12(deps)
 
     # set trading period
     # sma12 계산을 위해 1년을 더해야 함
@@ -333,7 +336,7 @@ def run_baa_g12(params):
                 except KeyError:
                     profit = 0
                 # 동일비중으로 투자 -> 수익률 1/n
-                total_profit = total_profit + profit * (1 / len(model_portfolio))
+                total_profit += profit * (1 / len(model_portfolio))
             
             avg_returns[date] = total_profit
             
@@ -490,10 +493,10 @@ def run_baa_g4(params):
         "dep_7": dep7_asset_name,
     }
     
-    # calculate momentum
-    cal_13621w(canaries)
-    cal_sma12(attacks)
-    cal_sma12(deps)
+    # calculate momentum     
+    canaries = cal_13621w(canaries)
+    attacks = cal_sma12(attacks)
+    deps = cal_sma12(deps)
 
     # set trading period
     # sma12 계산을 위해 1년을 더해야 함
@@ -580,7 +583,7 @@ def run_baa_g4(params):
                 except KeyError:
                     profit = 0
                 # 동일비중으로 투자 -> 수익률 1/n
-                total_profit = total_profit + profit * (1 / len(model_portfolio))
+                total_profit += profit * (1 / len(model_portfolio))
             
             avg_returns[date] = total_profit
             
