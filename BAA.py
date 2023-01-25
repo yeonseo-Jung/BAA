@@ -301,7 +301,7 @@ def run_baa_g12(params):
             canary_moms = [(n, mon[mon['yyyymm']== yyyymm]['momentum_score'].tolist()[0]) for n, mon in canaries.items()]
             min_canary_mom = min(canary_moms, key=itemgetter(1))
             if min_canary_mom[1] < 0:
-                # 카나리 자산군 모멘텀 스코어 하나라도 음수 -> 방어자산군 투자
+                # 카나리아 자산군 모멘텀 스코어 하나라도 음수 -> 방어자산군 투자
                 dep_moms = [(n, mon[mon['yyyymm']== yyyymm]['sma_12'].tolist()[0]) for n, mon in deps.items()]
                 sorted_dep_mom = sorted(dep_moms, key=itemgetter(1), reverse=True)
                 final_assets = sorted_dep_mom[:deps_counts]
@@ -314,7 +314,7 @@ def run_baa_g12(params):
                         for i in range(abs_idx + 1, len(final_assets_name)):
                             final_assets_name[i] = abs_asset
             else:
-                # 카나리 자산군 모멘텀 스코어 모두 양수(혹은 0) -> 공격자산군 투자
+                # 카나리아 자산군 모멘텀 스코어 모두 양수(혹은 0) -> 공격자산군 투자
                 attk_moms = [(n, mon[mon['yyyymm']== yyyymm]['sma_12'].tolist()[0]) for n, mon in attacks.items()]
                 sorted_attk_mom = sorted(attk_moms, key=itemgetter(1), reverse=True)
                 final_assets = sorted_attk_mom[:attack_counts]
@@ -548,7 +548,7 @@ def run_baa_g4(params):
             canary_moms = [(n, mon[mon['yyyymm']== yyyymm]['momentum_score'].tolist()[0]) for n, mon in canaries.items()]
             min_canary_mom = min(canary_moms, key=itemgetter(1))
             if min_canary_mom[1] < 0:
-                # 카나리 자산군 모멘텀 스코어 하나라도 음수 -> 방어자산군 투자
+                # 카나리아 자산군 모멘텀 스코어 하나라도 음수 -> 방어자산군 투자
                 dep_moms = [(n, mon[mon['yyyymm']== yyyymm]['sma_12'].tolist()[0]) for n, mon in deps.items()]
                 sorted_dep_mom = sorted(dep_moms, key=itemgetter(1), reverse=True)
                 final_assets = sorted_dep_mom[:deps_counts]
@@ -561,7 +561,7 @@ def run_baa_g4(params):
                         for i in range(abs_idx + 1, len(final_assets_name)):
                             final_assets_name[i] = abs_asset
             else:
-                # 카나리 자산군 모멘텀 스코어 모두 양수(혹은 0) -> 공격자산군 투자
+                # 카나리아 자산군 모멘텀 스코어 모두 양수(혹은 0) -> 공격자산군 투자
                 attk_moms = [(n, mon[mon['yyyymm']== yyyymm]['sma_12'].tolist()[0]) for n, mon in attacks.items()]
                 sorted_attk_mom = sorted(attk_moms, key=itemgetter(1), reverse=True)
                 final_assets = sorted_attk_mom[:attack_counts]
